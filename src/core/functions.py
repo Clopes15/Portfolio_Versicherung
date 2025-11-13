@@ -35,7 +35,7 @@ def logistic_reg(predict_val, indep_var, dataframe):
 
     #X = pd.Series(range(df.shape[0]))
     #X = df[indep_var]
-    X = np.linspace(-0.1, 1.5, 100)
+    X = np.linspace(df[indep_var].min(), df[indep_var].max(), 100)
     intercept = results.params['Intercept']
     slope = results.params['Q("{}")'.format(indep_var)]
     prob_X = 1 / (1 + math.e ** -(intercept + slope * X))
