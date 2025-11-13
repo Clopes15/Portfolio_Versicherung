@@ -32,8 +32,8 @@ def logistic_reg(predict_val, indep_var, dataframe):
     model = smf.logit(formula = formula, data = df) 
     results = model.fit() 
     print(results.summary())
-
-    #X = pd.Series(range(df.shape[0]))
+    
+    #X = pd.Series(range(df[indep_var].min(), df[indep_var].min(), 100)) # Funcao range só funciona com int
     #X = df[indep_var]
     X = np.linspace(df[indep_var].min(), df[indep_var].max(), 100)
     intercept = results.params['Intercept']
@@ -45,8 +45,13 @@ def logistic_reg(predict_val, indep_var, dataframe):
     ax.plot(X, prob_X, color='green', label="Estimated probability")
     ax.set_title("Logistic Regression")
     ax.set(xlabel = indep_var, ylabel = ('P ({} = 1)'.format(predict_val)))
-    x_pos = dataframe[indep_var].max()
-    y_pos = 0.5
+    x_pos = dataframe[indep_var].max()*0.7
+    y_pos = 0.75
     ax.legend(loc='center left', bbox_to_anchor=(x_pos, y_pos), frameon=True, borderaxespad=0, bbox_transform=ax.transData)
     ax.set_yticklabels(['{:.0f}%'.format(x*100) for x in ax.get_yticks()])
+    prob_thr = 0.5
+    idx = np.argmax(prob_X >= prob_thr)  
+    x_value = X[idx]
+    ax.vlines(x=x_value, ymin=0, ymax=1, colors='red', label='Threshold 0.5')
+    print(x_value)
     return prob_X
