@@ -53,5 +53,8 @@ def logistic_reg(predict_val, indep_var, dataframe):
     idx = np.argmax(prob_X >= prob_thr)  
     x_value = X[idx]
     ax.vlines(x=x_value, ymin=0, ymax=1, colors='red', label='Threshold 0.5')
+    ann_ax = ax.annotate(xycoords = 'axes fraction',
+                         text = 'For customers with a normalized weighted\nrisk factor higher than {:.3f}, there is a {:.0f}%\nprobability of filing an insurance claim'.
+                         format(x_value, prob_thr*100), xytext = [x_value+0.1, 0.442], xy = [x_value+0.02, 0.5], arrowprops=dict(facecolor='black'), fontsize = 12)
     print(x_value)
     return prob_X
